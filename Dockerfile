@@ -1,11 +1,14 @@
-FROM python:3.9-slim
+FROM python:3.9
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=on
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt /app/requirements.txt
 
-COPY . .
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
-# Просто имя файла, так как WORKDIR уже /app
+COPY . /app
+
 CMD ["python", "main.py"]
